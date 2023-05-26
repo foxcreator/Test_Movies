@@ -1,0 +1,75 @@
+body {
+    background: rgb(31, 31, 31);
+    color: aliceblue;
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.home {
+    padding-top: 5%;
+}
+
+.header-title {
+    padding-top: 30px;
+}
+
+.home-box {
+    padding-top: 25px;
+
+}
+
+.home .btn {
+    width: 100% ;
+}
+
+.btn-success {
+}
+
+.create {
+    padding-top: 50px;
+}
+
+.btn-form {
+    text-align: center;
+}
+
+.btn-form .btn {
+    width: 250px;
+}
+
+.back-image {
+    position: absolute;
+    z-index: -1;
+    opacity: 0.1;
+    width: 35%;
+    margin-left: 65%;
+    /*height: 800px;*/
+    /*float: right;*/
+    /*max-height: 100%;*/
+}
+
+.show-poster {
+    max-height: 450px;
+}
+
+.poster {
+    max-height: 245px;
+}
+
+.page-link:hover {
+    color: aliceblue;
+}
+
+.description {
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .back-image {
+        display: none;
+    }
+}
