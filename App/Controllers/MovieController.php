@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Movie;
 use App\Validators\CreateMovieValidator;
+use App\Validators\UpdateMovieValidator;
 use Core\Controller;
 use Core\FileUploadService;
 use Core\Model;
@@ -25,12 +26,11 @@ class MovieController extends Controller
             $imagePath = $uploader->uploadImage($_FILES['image']);
             $fields['image'] = $imagePath;
             Movie::save($fields);
-            redirect('');
+            redirect();
         }
 
         $this->data = $fields;
         $this->data += $validator->getError();
-//        dd($this->data);
 
         View::render('createmovie', $this->data);
     }
@@ -48,24 +48,30 @@ class MovieController extends Controller
 
     public function update($id)
     {
+        $movie = Movie::find($id);
+
         $fields = filter_input_array(INPUT_POST, $_POST, 1);
         $fields['image'] = $_FILES['image']['name'];
 
-        $movie = Movie::find($id);
-        $validator = new CreateMovieValidator();
+        $validator = new UpdateMovieValidator();
+        $uploader = new FileUploadService();
         if ($validator->validate($fields)) {
+
             if (isset($fields['image'])) {
-                $uploader = new FileUploadService();
                 $uploader->deleteFile($movie->image);
                 $imagePath = $uploader->uploadImage($_FILES['image']);
                 $fields['image'] = $imagePath;
-                $movie->update($fields, $movie->id);
-                redirect();
             } else {
-                $movie->update($fields, $movie->id);
-                redirect();
+                $fields['image'] = $movie->image;
             }
+
+            $movie->update($fields, $movie->id);
+            redirect('');
         }
+
+        $this->data = $fields;
+        $this->data += $validator->getError();
+        View::render('updatemovie', ['data' => $this->data, 'movie' => $movie]);
 
     }
 }
